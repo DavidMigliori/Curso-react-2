@@ -1,27 +1,36 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Logos } from './Components/Logos'
+import { ShowTask } from './Components/ShowTask'
+import { AddTask } from './Components/addtask'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTask] = useState([])
+
+const addTask = (newTask)=> {
+  let object ={
+    task: newTask,
+    status: false
+  }
+  setTask([...tasks,object])
+}
+
+const changeStatus = (indice)=>{
+  tasks[indice].status =!tasks[indice].status
+  setTask([...tasks])
+}
+const removeTasks = (indice) => {
+  tasks.splice(indice,1)
+  setTask([...tasks])
+}
 
   return (
     <>
-   <Logos title={"titulo"} />     
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+   <Logos/>     
+   <h1>Administrador de tareas</h1>
+   <AddTask addTask={addTask}/>
+   <ShowTask taskList={tasks} changeStatus={changeStatus} removeTasks={removeTasks}/>
     </>
   )
 }
